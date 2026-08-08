@@ -1,11 +1,28 @@
 from functools import wraps
-from flask import Flask, render_template, request, session, redirect
 import sqlite3
+
+from flask import (
+    Flask,
+    render_template,
+    request,
+    session,
+    redirect
+)
+
+# ===================================
+# App Configuration
+# ===================================
 
 app = Flask(__name__)
 app.secret_key = "saud-secret-key"
 
+
+# ===================================
+# Authentication Decorator
+# ===================================
+
 def login_required(f):
+
     @wraps(f)
     def wrapper(*args, **kwargs):
 
@@ -15,17 +32,30 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return wrapper
+
+
+# ===================================
+# Routes
+# ===================================
+
 @app.route("/")
 def home():
+
     return render_template("Login-Page.html")
 
 
 @app.route("/home")
 @login_required
 def home_page():
+
     services = [
-        "Create Incident",
-        "Check Ticket Status",
+        "Who I Am",
+        "Who you are",
+        "Network Health Check",
+        "Generate Report",
+        "Contact Support",
+        "Who I Am",
+        "Who you are",
         "Network Health Check",
         "Generate Report",
         "Contact Support"
@@ -48,7 +78,6 @@ def login():
     password = request.form["password"]
 
     conn = sqlite3.connect("users.db")
-
     cursor = conn.cursor()
 
     cursor.execute(
@@ -69,19 +98,44 @@ def login():
             result=f"Welcome {username} 🎉"
         )
 
-    else:
+    return render_template(
+        "Login-Page.html",
+        result="Invalid Username or Password ❌"
+    )
 
-        return render_template(
-            "Login-Page.html",
-            result="Invalid Username or Password ❌"
-        )
+@app.route("/whoami")
+@login_required
+def whoami():
 
+    conn = sqlite3.connect("users.db")
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT username, password FROM users WHERE username=?",
+        (session["username"],)
+    )
+
+    user = cursor.fetchone()
+
+    conn.close()
+
+    return {
+        "username": user[0],
+        "password": user[1]
+    }
 @app.route("/logout")
+@login_required
 def logout():
 
     session.pop("username", None)
 
     return redirect("/")
+
+
+# ===================================
+# Run Application
+# ===================================
 
 if __name__ == "__main__":
     app.run()

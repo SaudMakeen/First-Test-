@@ -38,9 +38,7 @@
 .logout-btn:hover {
 
     background: linear-gradient(135deg, #800020 0%, #20c6c7 100%);
-
     color: white;
-
     transform: translateY(-2px);
 }
 
@@ -80,7 +78,7 @@ p {
 
     text-align: center;
 
-    color: white;
+    color: black;
 
     margin-bottom: 40px;
 }
@@ -90,10 +88,10 @@ p {
     display: grid;
 
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
+    justify-content: center;
     gap: 25px;
 
-    max-width: 1200px;
+    max-width: 1000px;
 
     margin: auto;
 }
@@ -101,41 +99,53 @@ p {
 .card {
 
     background: white;
-
+    width: 200px;
     border-radius: 20px;
-
+    height: 50px;
     padding: 35px;
-
+    border-radius: 20px;
     text-align: center;
-
     cursor: pointer;
-
     transition: all 0.3s ease;
-
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
+    }
+
+    .info-box {
+        width: 400px;
+        padding: 20px;
+        border-radius: 20px;
+        background: white;
+        margin: 30px auto;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        background: white;
+        max-width: 600px;
+
+    }
 
 .card:hover {
 
     transform: translateY(-8px);
-
+    background: linear-gradient(135deg, #800020 0%, #20c6c7 100%);
     box-shadow: 0 15px 30px rgba(0,0,0,0.25);
 }
 
 .icon {
 
-    font-size: 40px;
+    font-size: 20px;
 
     margin-bottom: 15px;
 }
 
 .title {
 
-    font-size: 18px;
-
+    font-size: 15px;
     font-weight: bold;
-
     color: #444;
+}
+
+.card:hover .title{
+    color: white;
+
 }
 </style>
 </head>
@@ -154,19 +164,82 @@ p {
 <p>Select a service</p>
 
 <div class="services-grid">
-
     {% for service in services %}
 
-    <div class="card">
-        <div class="icon">⚡</div>
-        <div class="title">{{ service }}</div>
-    </div>
+<div class="card" onclick="openService('{{ service }}')">
 
-    {% endfor %}
+    <div class="icon">⚡</div>
+
+    <div class="title">
+        {{ service }}
+    </div>
 
 </div>
 
+{% endfor %}
+
+</div>
+<div id="whoami-box" class="info-box" style="display:none;">
+</div>
 
 </body>
+<script>
 
+async function showWhoAmI() {
+
+    const response = await fetch("/whoami");
+
+    const data = await response.json();
+
+    document.getElementById("whoami-box").innerHTML = `
+    <h3>Who Am I</h3>
+    <h3><b>Username:</b> ${data.username}</h3>
+    <h3><b>Password:</b> ${data.password}</h3>
+`;
+
+    document.getElementById("whoami-box").style.display = "block";
+}
+async function showWhoAmI2() {
+
+    const response = await fetch("/whoami");
+
+    const data = await response.json();
+
+    document.getElementById("whoami-box").innerHTML = `
+    <h3>Who you are</h3>
+    <h3><b>Username:</b> ${data.username}</h3>
+    <h3><b>Password:</b> ${data.password}</h3>
+`;
+
+    document.getElementById("whoami-box").style.display = "block";
+}
+</script>
+
+<script>
+
+function openService(service) {
+
+    if (service === "Who I Am") {
+        showWhoAmI();
+    }
+
+    else if (service === "Who you are") {
+        showWhoAmI2();
+    }
+
+    else if (service === "Network Health Check") {
+        alert("Network Health Check");
+    }
+
+    else if (service === "Generate Report") {
+        alert("Generate Report");
+    }
+
+    else if (service === "Contact Support") {
+        alert("Contact Support");
+    }
+
+}
+
+</script>
 </html>

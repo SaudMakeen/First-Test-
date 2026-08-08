@@ -1,0 +1,211 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Saud Portal</title>
+
+        <style>
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Arial, sans-serif;
+                background: linear-gradient(135deg, #b7d600 0%, #57c84d 35%, #20c6c7 100%);
+            }
+            @keyframes fadeInUp {
+
+                from {
+                    opacity: 0;
+                    transform: translateY(60px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+            }
+            @keyframes gradientMove {
+
+                0% {
+                    background-position: 0% 50%;
+                }
+
+                50% {
+                    background-position: 100% 50%;
+                }
+
+                100% {
+                    background-position: 0% 50%;
+                }
+
+            }
+            .login-box {
+
+                width: 420px;
+
+                padding: 45px;
+
+                border-radius: 24px;
+
+                background: rgba(255, 255, 255, 0.08);
+
+                backdrop-filter: blur(25px);
+                -webkit-backdrop-filter: blur(25px);
+
+                border: 1px solid rgba(255, 255, 255, 0.2);
+
+                box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.15);
+
+                text-align: center;
+
+                animation: fadeInUp 1s ease-out;
+
+                transition: all 0.4s ease;
+            }
+
+            .login-box:hover {
+
+                background: linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #faf9f6 50%,
+                    #f5f5f5 100%
+                );
+
+                transform:
+                    translateY(-8px)
+                    scale(1.02);
+
+                box-shadow:
+                    0 20px 45px rgba(0,0,0,0.25);
+
+
+
+}
+
+            .login-box:hover .logo {
+
+                    background: linear-gradient(135deg, #b7d600 0%, #57c84d 35%, #20c6c7 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+            }
+
+            .logo {
+                font-size: 50px;
+                font-weight: bold;
+                font-family: 'Nunito', sans-serif;
+                background: White;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+                transition: all 0.3s ease;
+            }
+
+            h2 {
+                color: white;
+                margin-bottom: 25px;
+            }
+            .login-box:hover h2 {
+
+                background: linear-gradient(
+                    135deg,
+                    #b7d600 0%,
+                    #57c84d 35%,
+                    #20c6c7 100%
+                );
+
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            input {
+                width: 100%;
+                padding: 12px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 5px;
+                background: #ffffff;
+                color:#57c84d ;
+                font-weight: bold;
+                font-size: 20px;
+                cursor: pointer;
+
+            }
+
+            button:hover {
+                background: linear-gradient(135deg, #b7d600 0%, #57c84d 35%, #20c6c7 100%);
+                color:white;
+            }
+            .login-box:hover button {
+
+                background: linear-gradient(
+                    135deg,
+                    #b7d600 0%,
+                    #57c84d 35%,
+                    #20c6c7 100%
+                );
+
+                color: white;
+
+            }
+            .footer {
+                margin-top: 20px;
+                font-size: 12px;
+                color: white;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+
+<div class="login-box">
+
+    <div class="logo">
+    Zain Saud
+
+</div>
+
+<h2>Discover More</h2>
+
+<p style="color:red;">
+{{ result }}
+</p>
+
+<form action="/login" method="POST">
+
+    <input
+        type="text"
+        name="username"
+        placeholder="Username">
+
+    <input
+        type="password"
+        name="password"
+        placeholder="Password">
+
+    <button type="submit">
+        Login
+    </button>
+
+</form>
+
+<div class="footer">
+    © 2026 Zain Saud Portal
+</div>
+
+        </div>
+
+    </body>
+    </html>

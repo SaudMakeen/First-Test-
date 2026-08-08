@@ -1,140 +1,87 @@
-from flask import Flask
+from functools import wraps
+from flask import Flask, render_template, request, session, redirect
+import sqlite3
 
 app = Flask(__name__)
+app.secret_key = "saud-secret-key"
 
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
 
+        if "username" not in session:
+            return redirect("/")
+
+        return f(*args, **kwargs)
+
+    return wrapper
 @app.route("/")
 def home():
-    return """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Saud Portal</title>
+    return render_template("Login-Page.html")
 
-        <style>
-            body {
-                margin: 0;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-family: Arial, sans-serif;
-                background: linear-gradient(1000deg, #38bdf8, #ec4899);
-            }
-            @keyframes fadeInUp {
-            
-                from {
-                    opacity: 0;
-                    transform: translateY(60px);
-                }
-            
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            
-            }
-            .login-box {
-                width: 350px;
-                background: linear-gradient(1000deg, #ec4899, #38bdf8);
-                border-radius: 12px;
-                padding: 40px;
-                text-align: center;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-                animation: fadeInUp 1s ease-out;
-                transition: all 0.3s ease;
-            }
-            
-            .login-box:hover {
-                background: White;
-                transform: scale(1.02);
-            }
-    
-            .login-box:hover .logo {
-                
-                    background: linear-gradient(1000deg, #38bdf8, #ec4899);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-            }
-            
-            .logo {
-                font-size: 50px;
-                font-weight: bold;
-                font-family: 'Nunito', sans-serif;
-                background: White;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            
-                transition: all 0.3s ease;
-            }
 
-            h2 {
-                color: #444;
-                margin-bottom: 25px;
-            }
+@app.route("/home")
+@login_required
+def home_page():
+    services = [
+        "Create Incident",
+        "Check Ticket Status",
+        "Network Health Check",
+        "Generate Report",
+        "Contact Support"
+    ]
 
-            input {
-                width: 100%;
-                padding: 12px;
-                margin-bottom: 15px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                box-sizing: border-box;
-            }
+    return render_template(
+        "Home-page.html",
+        username=session.get("username"),
+        services=services
+    )
 
-            button {
-                width: 100%;
-                padding: 12px;
-                border: none;
-                border-radius: 5px;
-                background: #ffffff;
-                color:#38bdf8 ;
-                font-weight: bold;
-                font-size: 16px;
-                cursor: pointer;
-                
-            }
 
-            button:hover {
-                background: linear-gradient(90deg, #ec4899, #38bdf8);
-                color:white;
-            }
+@app.route("/login", methods=["GET", "POST"])
+def login():
 
-            .footer {
-                margin-top: 20px;
-                font-size: 12px;
-                color: gray;
-            }
-        </style>
+    if request.method == "GET":
+        return redirect("/")
 
-    </head>
+    username = request.form["username"]
+    password = request.form["password"]
 
-    <body>
+    conn = sqlite3.connect("users.db")
 
-        <div class="login-box">
+    cursor = conn.cursor()
 
-            <div class="logo">
-                Zain Saud
-            </div>
+    cursor.execute(
+        "SELECT * FROM users WHERE username=? AND password=?",
+        (username, password)
+    )
 
-            <h2> Discover More </h2>
+    user = cursor.fetchone()
 
-            <input type="text" placeholder="Username">
+    conn.close()
 
-            <input type="password" placeholder="Password">
+    if user:
 
-            <button class="button">Login</button>
+        session["username"] = username
 
-            <div class="footer">
-                © 2026 Zain Saud Portal
-            </div>
+        return render_template(
+            "Login-Success.html",
+            result=f"Welcome {username} 🎉"
+        )
 
-        </div>
+    else:
 
-    </body>
-    </html>
-    """
+        return render_template(
+            "Login-Page.html",
+            result="Invalid Username or Password ❌"
+        )
 
+@app.route("/logout")
+def logout():
+
+    session.pop("username", None)
+
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run()

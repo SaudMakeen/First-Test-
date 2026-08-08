@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Login Success</title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #b7d600 0%,
+                #57c84d 35%,
+                #20c6c7 100%
+            );
+
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .success-box {
+
+            background: white;
+
+            padding: 50px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+
+            opacity: 0;
+
+            transform: translateY(50px);
+
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        h1 {
+
+            margin: 0;
+
+            color: #57c84d;
+
+            font-size: 42px;
+        }
+
+        p {
+
+            color: #666;
+
+            margin-top: 15px;
+
+            font-size: 18px;
+        }
+
+        .loader {
+
+            width: 40px;
+            height: 40px;
+
+            border: 4px solid #e5e5e5;
+
+            border-top: 4px solid #57c84d;
+
+            border-radius: 50%;
+
+            margin: 25px auto 0;
+
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes fadeInUp {
+
+            from {
+
+                opacity: 0;
+                transform: translateY(50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+                transform: translateY(0);
+
+            }
+
+        }
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="success-box">
+
+        <h1>✅ Login Successful</h1>
+
+        <p>Loading your dashboard...</p>
+
+        <div class="loader"></div>
+
+    </div>
+
+<script>
+
+setTimeout(function() {
+
+    document.body.style.opacity = "0";
+    }, 4700);
+
+setTimeout(function() {
+   window.location.href = "/home";
+
+}, 5000);
+
+</script>
+</body>
+
+</html>

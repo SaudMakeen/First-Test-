@@ -379,9 +379,10 @@ p {
     </div>
 
     <div id="whoami-box" class="info-box">
-    </div>
+</div>    </div>
+<div class="header-bar">Home</div></div>
+<div class="footer"> © 2026 Zain Saud Portal </div>
 
-</div>
 
 </body>
 <script>
@@ -393,10 +394,7 @@ async function showWhoAmI() {
     const data = await response.json();
 
     document.getElementById("whoami-box").innerHTML = `
-    <h3>Who Am I</h3>
-    <h3><b>Username:</b> ${data.username}</h3>
-    <h3><b>Password:</b> ${data.password}</h3>
-`;
+    <h3>VPN Management</h3> `;
 
     document.getElementById("whoami-box").style.display = "block";
 }
@@ -405,16 +403,13 @@ async function showWhoAmI() {
 <script>
 async function showWhoAmI2() {
 
+
     const response = await fetch("/whoami");
 
     const data = await response.json();
 
     document.getElementById("whoami-box").innerHTML = `
-    <h3>Who you are</h3>
-    <h3><b>Username:</b> ${data.username}</h3>
-    <h3><b>Password:</b> ${data.password}</h3>
-`;
-
+    <h3>LDAP Management</h3> `;
     document.getElementById("whoami-box").style.display = "block";
 }
 </script>
@@ -467,27 +462,27 @@ function openService(service, element) {
 
     // محتوى الخدمات
 
-    if (service === "Who I Am") {
+    if (service === "VPN Management") {
 
         showWhoAmI();
 
     }
 
-    else if (service === "Who you are") {
+    else if (service === "LDAP Management") {
 
         showWhoAmI2();
 
     }
 
-    else if (service === "Network Health Check") {
+    else if (service === "") {
 
     }
 
-    else if (service === "Generate Report") {
+    else if (service === "") {
 
     }
 
-    else if (service === "Contact Support") {
+    else if (service === "") {
 
         alert("Contact Support");
 

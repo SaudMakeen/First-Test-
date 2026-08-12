@@ -49,16 +49,14 @@ def home():
 def home_page():
 
     services = [
-        "Who I Am",
-        "Who you are",
-        "Network Health Check",
-        "Generate Report",
-        "Contact Support",
-        "Who I Am",
-        "Who you are",
-        "Network Health Check",
-        "Generate Report",
-        "Contact Support"
+        "VPN Management",
+        "LDAP Management",
+        "DNS Management",
+        "Jabber Management",
+        "Server Management",
+        "Statistics Management",
+        "Log Management",
+
     ]
 
     return render_template(
